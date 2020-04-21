@@ -2,7 +2,7 @@ package com.amazonaws.event;
 
 public class ProgressEvent {
 
-    private ProgressEventType type;
+    private final ProgressEventType type;
 
     public ProgressEvent(ProgressEventType type) {
         this.type = type;

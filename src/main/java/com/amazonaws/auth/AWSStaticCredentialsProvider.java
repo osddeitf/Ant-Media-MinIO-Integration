@@ -2,7 +2,7 @@ package com.amazonaws.auth;
 
 public class AWSStaticCredentialsProvider implements AWSCredentialsProvider {
 
-    private AWSCredentials credentials;
+    private final AWSCredentials credentials;
 
     public AWSStaticCredentialsProvider(AWSCredentials credentials) {
         this.credentials = credentials;

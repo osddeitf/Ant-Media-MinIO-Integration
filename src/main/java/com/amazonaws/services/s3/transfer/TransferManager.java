@@ -5,7 +5,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 
 public class TransferManager {
 
-    private AmazonS3 client;
+    private final AmazonS3 client;
     
     public TransferManager(AmazonS3 client) {
         this.client = client;

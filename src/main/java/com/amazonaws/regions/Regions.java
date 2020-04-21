@@ -2,7 +2,7 @@ package com.amazonaws.regions;
 
 public class Regions {
 
-    private String endpoint;
+    private final String endpoint;
 
     public Regions(String endpoint) {
         this.endpoint = endpoint;
