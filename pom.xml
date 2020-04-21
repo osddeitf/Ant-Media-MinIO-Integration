@@ -8,12 +8,12 @@
     <version>1.11.268-SNAPSHOT</version>
 	<version>1.11</version>
   </parent> -->
-  <version>1.11.268</version>
-  <groupId>com.amazonaws</groupId>
-  <artifactId>aws-java-sdk-s3</artifactId>
-  <name>AWS Java SDK for Amazon S3</name>
+  <version>1.9.1</version>
+  <groupId>com.osddeitf</groupId>
+  <artifactId>ant-media-storage-minio</artifactId>
+  <!-- <name>AWS Java SDK for Amazon S3</name>
   <description>The AWS Java SDK for Amazon S3 module holds the client classes that are used for communicating with Amazon Simple Storage Service</description>
-  <url>https://aws.amazon.com/sdkforjava</url>
+  <url>https://aws.amazon.com/sdkforjava</url> -->
   <packaging>jar</packaging>
   
   <properties>
@@ -27,7 +27,20 @@
 		<groupId>io.minio</groupId>
 		<artifactId>minio</artifactId>
 		<version>7.0.1</version>
-	</dependency>
+  </dependency>
+  <dependency>
+    <groupId>io.antmedia</groupId>
+    <version>2.0.0</version>
+    <artifactId>ant-media-server-common</artifactId>
+    <scope>system</scope>
+    <systemPath>${project.basedir}/src/main/resources/lib/ant-media-server-common-1.9.1.jar</systemPath>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.5</version>
+  </dependency>
+
   <!-- <dependency>
       <artifactId>aws-java-sdk-core</artifactId>
       <groupId>com.amazonaws</groupId>
