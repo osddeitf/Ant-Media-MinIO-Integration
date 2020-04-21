@@ -3,8 +3,7 @@ The workaround solution for integrate [MinIO](https://min.io) with [Ant Media Se
 
 ## How to use
 - Build and package `.jar` using jdk-8 (newer version may work as well).
-- Replace `lib/aws-java-sdk-s3-{version}.jar` with previous built `.jar`.
-- Remove `lib/aws-java-sdk-core-{version}.jar` as well (to mitigate bean's class definition conflict).
+- Copy built `.jar` archive to `lib`.
 - Download `minio` version `7.0.1` and copy to `lib`.
 - Insert the following to `webapps/{appName}/WEB-INF/red5-web.xml`:
 ```xml
@@ -23,6 +22,3 @@ storage.accessKey=<MINIO_ACCESSKEY>
 storage.secretKey=<MINIO_SECRETKEY>
 storage.bucket=<MINIO_BUCKET>
 ```
-
-## Roadmap
-- Reduce the risks of replacing and deleting the `.jar` files, by write another class instead of `io.antmedia.storage.AmazonS3StorageClient` and mocking `AmazonS3`.
