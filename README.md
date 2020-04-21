@@ -8,14 +8,20 @@ The workaround solution for integrate [MinIO](https://min.io) with [Ant Media Se
 - Insert the following to `webapps/{appName}/WEB-INF/red5-web.xml`:
 ```xml
 <bean id="app.storageClient" class="io.antmedia.storage.AmazonS3StorageClient">
-    <property name="accessKey" value="Enter your S3_ACCESS_KEY" />
-    <property name="secretKey" value="Enter your S3_SECRET_KEY" />
-    <property name="region" value="Enter your REGION_NAME e.g. eu-central-1" />
-    <property name="storageName" value="Enter your BUCKET_NAME" />
+    <property name="accessKey" value="${storage.accessKey}" />
+    <property name="secretKey" value="${storage.secretKey}" />
+    <property name="region" value="${storage.url}" />
+    <property name="storageName" value="${storage.bucket}" />
 </bean>
 ```
 The workaround is that: instead of *region*, you must pass your whole url in `<property name="region">`, including scheme (*http* or *https*).
+- Insert values to `webapps/{appName}/WEB-INF/red5-web.properties` (edit `MINIO_*` to your appropriate values):
+```conf
+storage.url=<MINIO_URL>
+storage.accessKey=<MINIO_ACCESSKEY>
+storage.secretKey=<MINIO_SECRETKEY>
+storage.bucket=<MINIO_BUCKET>
+```
 
 ## Roadmap
 - Reduce the risks of replacing and deleting the `.jar` files, by write another class instead of `io.antmedia.storage.AmazonS3StorageClient` and mocking `AmazonS3`.
-- Migrate settings to `webapps/{appName}/WEB-INF/red5-web.properties`.
