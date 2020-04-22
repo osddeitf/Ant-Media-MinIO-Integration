@@ -3,6 +3,7 @@ package com.osddeitf.antmedia;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -14,23 +15,31 @@ import io.minio.PutObjectOptions;
 import io.minio.errors.ErrorResponseException;
 import io.minio.errors.InvalidEndpointException;
 import io.minio.errors.InvalidPortException;
-import okhttp3.HttpUrl;
 
 public class MinioStorageClient extends StorageClient {
 
     private MinioClient minioClient;
+    private String url;
 
 	protected static Logger logger = Logger.getLogger(MinioStorageClient.class.getName());
 
     private MinioClient getMinioClient() throws InvalidEndpointException, InvalidPortException {
         if (minioClient == null) {
             minioClient = new MinioClient(
-                HttpUrl.parse(this.getRegion()),
+                this.getUrl(),
                 this.getAccessKey(),
                 this.getSecretKey()
             );
         }
         return minioClient;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
@@ -63,17 +72,18 @@ public class MinioStorageClient extends StorageClient {
     @Override
     public void save(File file, FileType type) {
         try {
-            logger.info("Mp4 " + file.getName() + " upload has started");
+            logger.info("Mp4 `" + file.getName() + "` upload has started");
 
             InputStream inputStream = new FileInputStream(file);
             getMinioClient().putObject(
                 getStorageName(),
-                file.getName(),
+                type.getValue() + "/" + file.getName(),
                 new FileInputStream(file),
                 new PutObjectOptions(inputStream.available(), 10*1024*1024)
             );
-
-            logger.info("File " + file.getName() + " uploaded to MinIO");
+            inputStream.close();
+            Files.delete(file.toPath());
+            logger.info("File `" + file.getName() + "` uploaded to MinIO");
         }
         catch (Exception e) {
             logger.log(java.util.logging.Level.SEVERE, ExceptionUtils.getStackTrace(e));
