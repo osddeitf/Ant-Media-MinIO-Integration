@@ -2,18 +2,10 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <!-- <parent>
-    <groupId>com.amazonaws</groupId>
-    <artifactId>aws-java-sdk-pom</artifactId>
-    <version>1.11.268-SNAPSHOT</version>
-	<version>1.11</version>
-  </parent> -->
+  <!-- <parent></parent> -->
   <version>1.9.1</version>
   <groupId>com.osddeitf</groupId>
   <artifactId>ant-media-storage-minio</artifactId>
-  <!-- <name>AWS Java SDK for Amazon S3</name>
-  <description>The AWS Java SDK for Amazon S3 module holds the client classes that are used for communicating with Amazon Simple Storage Service</description>
-  <url>https://aws.amazon.com/sdkforjava</url> -->
   <packaging>jar</packaging>
   
   <properties>
@@ -21,57 +13,32 @@
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
-  <!-- The dependencies section in pom.xml is auto generated. No manual changes are allowed -->
   <dependencies>
-	<dependency>
-		<groupId>io.minio</groupId>
-		<artifactId>minio</artifactId>
-		<version>7.0.2</version>
-  </dependency>
-  <dependency>
-    <groupId>io.antmedia</groupId>
-    <version>2.0.0</version>
-    <artifactId>ant-media-server-common</artifactId>
-    <scope>system</scope>
-    <systemPath>${project.basedir}/src/main/resources/lib/ant-media-server-common-1.9.1.jar</systemPath>
-  </dependency>
-  <dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-lang3</artifactId>
-    <version>3.5</version>
-  </dependency>
-
-  <!-- <dependency>
-      <artifactId>aws-java-sdk-core</artifactId>
-      <groupId>com.amazonaws</groupId>
-      <optional>false</optional>
-      <version>1.11.268</version>
-  </dependency> -->
-    <!-- <dependency>
-        <artifactId>aws-java-sdk-kms</artifactId>
-        <groupId>com.amazonaws</groupId>
-        <optional>false</optional>
-        <version>${awsjavasdk.version}</version>
+    <dependency>
+      <groupId>io.minio</groupId>
+      <artifactId>minio</artifactId>
+      <version>7.0.2</version>
     </dependency>
     <dependency>
-        <artifactId>aws-java-sdk-core</artifactId>
-        <groupId>com.amazonaws</groupId>
-        <optional>false</optional>
-        <version>${awsjavasdk.version}</version>
+      <groupId>io.antmedia</groupId>
+      <version>2.0.0</version>
+      <artifactId>ant-media-server-common</artifactId>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/resources/lib/ant-media-server-common-1.9.1.jar</systemPath>
     </dependency>
+    <!-- Same version as dependency of antmedia -->
     <dependency>
-        <artifactId>aws-java-sdk-test-utils</artifactId>
-        <groupId>com.amazonaws</groupId>
-        <optional>false</optional>
-        <scope>test</scope>
-        <version>${awsjavasdk.version}</version>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.5</version>
     </dependency>
+    <!-- Same version as minio dependency for remain compatibility -->
     <dependency>
-        <artifactId>jmespath-java</artifactId>
-        <groupId>com.amazonaws</groupId>
-        <optional>false</optional>
-    </dependency> -->
-</dependencies>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>3.13.1</version>
+    </dependency>
+  </dependencies>
 
   <build>
     <resources>
@@ -96,50 +63,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <!-- This profile uses the JAPICMP plugin to generate a report of changes between the release version and the latest version -->
-  <!-- For more information on the plugin, see https://github.com/siom79/japicmp -->
-  <!-- <profiles>
-    <profile>
-      <id>versiondiff</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.github.siom79.japicmp</groupId>
-            <artifactId>japicmp-maven-plugin</artifactId>
-            <version>0.5.0</version>
-            <executions>
-              <execution>
-                <phase>verify</phase>
-                <goals>
-                  <goal>cmp</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <oldVersion>
-                <dependency>
-                  <groupId>com.amazonaws</groupId>
-                  <artifactId>aws-java-sdk-s3</artifactId>
-                  <version>RELEASE</version>
-                </dependency>
-              </oldVersion>
-              <newVersion>
-                <file>
-                  <path>${project.build.directory}/${project.artifactId}-${project.version}.jar</path>
-                </file>
-              </newVersion>
-              <parameter>
-                <onlyModified>true</onlyModified>
-                <accessModifier>public</accessModifier>
-                <breakBuildOnModifications>false</breakBuildOnModifications>
-                <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
-                <onlyBinaryIncompatible>false</onlyBinaryIncompatible>
-              </parameter>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles> -->
 </project>
