@@ -35,7 +35,6 @@ public class MinioStorageClient extends StorageClient {
 
     public MinioStorageClient() {
         this.httpClient = new OkHttpClient.Builder()
-            // .connectTimeout(timeout, unit)
             .callTimeout(10, TimeUnit.SECONDS)
             .build();
     }
@@ -75,19 +74,18 @@ public class MinioStorageClient extends StorageClient {
     /** Webhook notify */
     private void notifyWebhook(String filename) {
         if (webhookURL == null || webhookURL.isEmpty()) return;
+
+        String httpURL = webhookURL.matches("https?://.*") ? webhookURL : "https://" + webhookURL;
+        info("Webhook `%s` invoking at %s with parameters: %s", ACTION_NAME, httpURL, filename);
         
-        info("Webhook `%s` invoking at %s with parameters: %s", ACTION_NAME, webhookURL, filename);
-        
+        // Omit `id` and `vodId`
         RequestBody body = new FormBody.Builder()
-            // .addEncoded("id", "")
-            // .addEncoded("vodId", "")
             .addEncoded("action", ACTION_NAME)
             .addEncoded("vodName", filename)
             .build();
 
         Request request = new Request.Builder()
-            .url(webhookURL)
-            // .header("Content-Type", "application/x-www-form-urlencoded")
+            .url(httpURL)
             .post(body)
             .build();
         
