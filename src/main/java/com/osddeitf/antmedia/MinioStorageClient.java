@@ -104,11 +104,16 @@ public class MinioStorageClient extends StorageClient {
         }
     }
 
+    @Override
+	public boolean fileExist(String filename, FileType type) {
+		return fileExist(type.getValue() + "/" + filename);
+	}
+	
     /** Interface declarations */
     @Override
-    public boolean fileExist(String filename, FileType type) {
+    public boolean fileExist(String key) {
         try {
-            getMinioClient().statObject(getStorageName(), filename);
+            getMinioClient().statObject(getStorageName(), key);
             return true;
         }
         catch (ErrorResponseException e) {
@@ -134,21 +139,26 @@ public class MinioStorageClient extends StorageClient {
 
     @Override
     public void save(File file, FileType type) {
+        save(type.getValue() + "/" + file.getName(), file);        
+    }
+    
+    @Override
+    public void save(String key, File file) {
         try {
-            info("Mp4 `%s` upload to MinIO has started", file.getName());
-
             InputStream inputStream = new FileInputStream(file);
+            
+            info("Mp4 `%s` upload to MinIO has started", key);
             getMinioClient().putObject(
                 getStorageName(),
-                type.getValue() + "/" + file.getName(),
-                new FileInputStream(file),
+                key,
+                inputStream,
                 new PutObjectOptions(inputStream.available(), 10*1024*1024)
             );
+            info("File `%s` uploaded to MinIO", file.getName());
+
             inputStream.close();
             Files.delete(file.toPath());
             notifyWebhook(file.getName());
-
-            info("File `%s` uploaded to MinIO", file.getName());
         }
         catch (Exception e) {
             error(ExceptionUtils.getStackTrace(e));
